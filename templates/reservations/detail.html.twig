@@ -1,0 +1,144 @@
+
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}
+    Reserva #{{ reserva.id }} | MisterPlan
+{% endblock %}
+
+{% block content %}
+    <div class="detail-page">
+        <a href="/" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Volver a reservas
+        </a>
+
+        <div class="page-heading">
+            <div>
+                <div class="eyebrow">OPERACIONES / DETALLE</div>
+                <h1>Reserva #{{ reserva.id }}</h1>
+                <p>Información y seguimiento de la reserva.</p>
+            </div>
+
+            <div
+                class="detail-actions"
+                id="detail-actions"
+                data-reserva-id="{{ reserva.id }}"
+                data-estado="{{ reserva.estado }}"
+            >
+
+                <span
+                    class="status status-{{ reserva.estado }}"
+                    id="detail-status"
+                >
+                    {{ reserva.estado|capitalize }}
+                </span>
+
+                {% if reserva.estado == 'pendiente' %}
+                    <button
+                        class="btn btn-primary"
+                        type="button"
+                        data-action="confirm"
+                    >
+                        Confirmar
+                    </button>
+                {% endif %}
+
+                {% if reserva.estado != 'cancelada' %}
+                    <button
+                        class="btn btn-danger"
+                        type="button"
+                        data-action="cancel"
+                    >
+                        Cancelar reserva
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <section class="panel detail-panel">
+                <div class="detail-section-heading">
+                    <h2>Información de la reserva</h2>
+                    <p>Datos registrados del huésped y alojamiento</p>
+                </div>
+
+                <div class="detail-fields">
+                    <div class="detail-field">
+                        <span>Nombre del huésped</span>
+                        <strong>{{ reserva.nombre_huesped }}</strong>
+                    </div>
+
+                    <div class="detail-field">
+                        <span>Correo electrónico</span>
+                        <strong>{{ reserva.email_huesped }}</strong>
+                    </div>
+
+                    <div class="detail-field">
+                        <span>Alojamiento</span>
+                        <strong>{{ reserva.nombre_alojamiento }}</strong>
+                    </div>
+
+                    <div class="detail-field">
+                        <span>Importe total</span>
+                        <strong class="detail-price">
+                            {{ reserva.importe|number_format(2, ',', '.') }} €
+                        </strong>
+                    </div>
+
+                    <div class="detail-field">
+                        <span>Fecha de entrada</span>
+                        <strong>{{ reserva.fecha_entrada|date('d/m/Y') }}</strong>
+                    </div>
+
+                    <div class="detail-field">
+                        <span>Fecha de salida</span>
+                        <strong>{{ reserva.fecha_salida|date('d/m/Y') }}</strong>
+                    </div>
+                </div>
+
+                <div class="detail-notes">
+                    <span>Notas adicionales</span>
+                    <p>{{ reserva.notas|default('Sin notas adicionales', true) }}</p>
+                </div>
+            </section>
+
+            <section class="panel detail-panel">
+                <div class="detail-section-heading">
+                    <h2>Historial de actividad</h2>
+                    <p>Movimientos registrados de esta reserva</p>
+                </div>
+
+                <div class="timeline">
+                    {% for evento in reserva.eventos %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+
+                            <div class="timeline-content">
+                                <strong>
+                                    {{ evento.tipo|capitalize }}
+                                </strong>
+
+                                <p>{{ evento.descripcion }}</p>
+
+                                <time datetime="{{ evento.fecha_creacion }}Z">
+                                    {{ evento.fecha_creacion|fecha_local('d/m/Y H:i') }}
+                                </time>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>No hay eventos registrados.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/assets/js/reservation-detail.js" defer></script>
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+{% endblock %}

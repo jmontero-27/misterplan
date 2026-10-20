@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="/">
+                <img
+                    src="/assets/img/logo-nav.webp"
+                    alt="MisterPlan"
+                    class="brand-logo"
+                    height="45"
+                >
+                <span>MisterPlan</span>
+            </a>
+
+            <div class="sidebar-label">GESTIÓN</div>
+
+            <nav class="sidebar-nav" aria-label="Navegación principal">
+                <a class="nav-link active" href="/">
+                    <span>
+                        <i data-lucide="calendar-days"></i>
+                    </span> Reservas
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <span class="online-dot"></span>
+                Sistema de reserva
+            </div>
+        </aside>
+
+        <div class="main-area">
+            <header class="topbar">
+                <span>Panel de administración</span>
+                <span class="topbar-brand">MisterPlan · Gestión hotelera</span>
+            </header>
+
+            <main class="page-content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+{% endblock %}

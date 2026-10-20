@@ -1,0 +1,147 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Gestión de reservas | MisterPlan{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <div>
+            <div class="eyebrow">OPERACIONES / RESERVAS</div>
+            <h1>Gestión de reservas</h1>
+            <p>Consulta y administra las reservas de tus alojamientos.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-nueva-reserva" type="button">
+            <i data-lucide="plus"></i>
+            Nueva reserva
+        </button>
+    </div>
+
+    <section class="stats-grid" aria-label="Resumen de reservas">
+        <article class="stat-card">
+            <span class="stat-icon stat-blue">
+                <i data-lucide="calendar-days"></i>
+            </span>
+            <div>
+                <span class="stat-label">Total de reservas</span>
+                <strong id="stat-total">—</strong>
+            </div>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-icon stat-green">
+                <i data-lucide="calendar-check"></i>
+            </span>
+            <div>
+                <span class="stat-label">Confirmadas</span>
+                <strong id="stat-confirmadas">—</strong>
+            </div>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-icon stat-yellow">
+                <i data-lucide="clock-3"></i>
+            </span>
+            <div>
+                <span class="stat-label">Pendientes</span>
+                <strong id="stat-pendientes">—</strong>
+            </div>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-icon stat-red">
+                <i data-lucide="calendar-x"></i>
+            </span>
+            <div>
+                <span class="stat-label">Canceladas</span>
+                <strong id="stat-canceladas">—</strong>
+            </div>
+        </article>
+    </section>
+
+    <section class="panel filters-panel" aria-label="Filtros">
+        <div class="filters-grid">
+            <label class="field">
+                <span>Buscar huésped</span>
+                <input id="filter-huesped" type="search" placeholder="Nombre del huésped...">
+            </label>
+
+            <label class="field">
+                <span>Estado</span>
+                <select id="filter-estado">
+                    <option value="">Todos los estados</option>
+                    <option value="pendiente">Pendientes</option>
+                    <option value="confirmada">Confirmadas</option>
+                    <option value="cancelada">Canceladas</option>
+                </select>
+            </label>
+
+            <label class="field">
+                <span>Fecha desde</span>
+                <input id="filter-desde" type="date">
+            </label>
+
+            <label class="field">
+                <span>Fecha hasta</span>
+                <input id="filter-hasta" type="date">
+            </label>
+
+            <button class="btn btn-secondary" id="btn-limpiar" type="button">
+                Limpiar
+            </button>
+        </div>
+    </section>
+
+    <section class="panel table-panel">
+        <div class="panel-heading">
+            <div>
+                <h2>Reservas <span id="reservas-count"></span></h2>
+                <p>Listado actualizado de alojamientos reservados</p>
+            </div>
+            <button class="btn btn-secondary" id="btn-actualizar">
+                <i data-lucide="refresh-cw"></i>
+                Actualizar
+            </button>
+        </div>
+
+        <div id="reservas-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Huésped</th>
+                        <th>Alojamiento</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Importe</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="reservas-tbody">
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            Cargando reservas...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <span id="reservas-footer">Consultando datos...</span>
+        </div>
+    </section>
+
+    {% include "reservations/form.html.twig" %}
+    
+{% endblock %}
+
+{% block scripts %}
+    <script src="/assets/js/reservations.js" defer></script>
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+{% endblock %}

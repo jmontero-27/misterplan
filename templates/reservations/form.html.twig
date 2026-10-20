@@ -1,0 +1,76 @@
+<div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+
+<aside
+    class="reserva-drawer"
+    id="reserva-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="drawer-title"
+    aria-hidden="true"
+    inert
+>
+
+    <div class="drawer-header">
+        <div>
+            <h2 id="drawer-title">Nueva reserva</h2>
+            <p>Completa los datos para registrar una reserva.</p>
+        </div>
+
+        <button type="button" class="drawer-close" id="drawer-close" aria-label="Cerrar">
+            <i data-lucide="x"></i>
+        </button>
+    </div>
+
+    <form id="form-reserva" class="drawer-form">
+        <div class="drawer-body">
+            <label class="field">
+                <span>Nombre del huésped *</span>
+                <input name="nombre_huesped" maxlength="150" placeholder="Nombre completo" required>
+            </label>
+
+            <label class="field">
+                <span>Correo electrónico *</span>
+                <input name="email_huesped" type="email" placeholder="correo@ejemplo.com" required>
+            </label>
+
+            <label class="field">
+                <span>Alojamiento *</span>
+                <input name="nombre_alojamiento" placeholder="Nombre del alojamiento" required>
+            </label>
+
+            <div class="drawer-two-columns">
+                <label class="field">
+                    <span>Fecha de entrada *</span>
+                    <input name="fecha_entrada" type="date" required>
+                </label>
+
+                <label class="field">
+                    <span>Fecha de salida *</span>
+                    <input name="fecha_salida" type="date" required>
+                </label>
+            </div>
+
+            <label class="field">
+                <span>Importe (€) *</span>
+                <input name="importe" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+            </label>
+
+            <label class="field">
+                <span>Notas (opcional)</span>
+                <textarea name="notas" rows="4" placeholder="Información adicional..."></textarea>
+            </label>
+
+            <div id="form-error" class="form-error" role="alert" hidden></div>
+        </div>
+
+        <div class="drawer-footer">
+            <button type="button" class="btn btn-secondary" id="drawer-cancel">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary" id="btn-guardar-reserva">
+                Crear reserva
+            </button>
+        </div>
+    </form>
+</aside>
