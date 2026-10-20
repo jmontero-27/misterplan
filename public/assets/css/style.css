@@ -451,6 +451,16 @@ td:first-child {
     font-size: 13px;
 }
 
+.feedback-success {
+    background: #ecfdf3;
+    color: #067647;
+}
+
+.feedback-loading {
+    background: #eff8ff;
+    color: #175cd3;
+}
+
 .feedback[hidden] {
     display: none;
 }

@@ -16,8 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isUpdating = false;
 
-    function showFeedback(message) {
+    function showFeedback(message, type = 'error') {
+        feedback.classList.toggle('feedback-success', type === 'success');
+        feedback.classList.toggle('feedback-loading', type === 'loading');
+        
         feedback.textContent = message;
+        ç
         feedback.hidden = false;
     }
 
@@ -84,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         actions.setAttribute('aria-busy', 'true');
         actions.querySelectorAll('button').forEach(item => item.disabled = true);
         
-        showFeedback('Actualizando reserva...');
+        showFeedback('Actualizando reserva...', 'loading');
 
         try {
             const response = await fetch(
@@ -100,7 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             renderReservation(payload.data);
 
-            showFeedback(action === 'confirm' ? 'Reserva confirmada correctamente.' : 'Reserva cancelada correctamente.');
+            showFeedback(
+                action === 'confirm' ? 'Reserva confirmada correctamente.' : 'Reserva cancelada correctamente.',
+                action === 'confirm' ? 'success' : 'error'
+            );
         } catch (error) {
             showFeedback(error.message || 'No se pudo conectar con el servidor.');
         } finally {
