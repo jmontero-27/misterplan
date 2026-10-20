@@ -35,7 +35,7 @@ cp .env.example .env
 4. Arrancar los contenedores.
 
 ```
-docker compose up -d --build
+docker compose up -d
 ```
 
 5. Instalar las dependencias con Composer.
@@ -223,8 +223,12 @@ y a las operaciones de creación y cambio de estado.
 - Renderizar con Twig las reservas iniciales del listado y mantener
   JavaScript para actualizar los resultados al aplicar filtros.
 - Añadir autenticación y autorización para proteger los datos de huéspedes.
-- Incorporar paginación y ampliar los tests con casos límite de entrada
-  y pruebas de los flujos web.
+- Añadir paginación al listado y a la API mediante parámetros `limit`
+  y `offset`, validando sus valores y estableciendo un límite máximo
+  de resultados por petición.
+- Ampliar los tests con casos límite de entrada y pruebas de los flujos web.
+- Evaluar una caché con Redis para consultas frecuentes si las mediciones
+  muestran que reduciría los tiempos de respuesta y la carga sobre MySQL.
 - Configurar el entorno de producción, desactivando el modo de depuración
   y activando la caché de plantillas de Twig.
 
@@ -236,8 +240,13 @@ de respuesta, las consultas y los picos de peticiones.
 
 Las primeras mejoras serían:
 
-- Paginar el listado y seleccionar únicamente los campos necesarios,
-  evitando recuperar todas las reservas en cada consulta.
+- Paginar el listado mediante `limit` y `offset` y seleccionar únicamente
+  los campos necesarios, evitando recuperar todas las reservas en cada
+  consulta. Para desplazamientos muy grandes, valorar paginación por cursor.
+- Si las consultas repetidas se convierten en un cuello de botella,
+  incorporar Redis con un tiempo de expiración e invalidación de la caché
+  al crear, confirmar o cancelar reservas. Las claves incluirían los filtros
+  y la paginación para distinguir los resultados.
 - Revisar los planes de ejecución y ajustar los índices a los filtros
   y al orden del listado. Actualmente existen índices por estado
   y fecha de entrada.
