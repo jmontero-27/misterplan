@@ -22,7 +22,7 @@
             </span>
             <div>
                 <span class="stat-label">Total de reservas</span>
-                <strong id="stat-total">—</strong>
+                <strong id="stat-total">{{ reservations|length }}</strong>
             </div>
         </article>
 
@@ -32,7 +32,7 @@
             </span>
             <div>
                 <span class="stat-label">Confirmadas</span>
-                <strong id="stat-confirmadas">—</strong>
+                <strong id="stat-confirmadas">{{ reservations|filter(r => r.estado == 'confirmada')|length }}</strong>
             </div>
         </article>
 
@@ -42,7 +42,7 @@
             </span>
             <div>
                 <span class="stat-label">Pendientes</span>
-                <strong id="stat-pendientes">—</strong>
+                <strong id="stat-pendientes">{{ reservations|filter(r => r.estado == 'pendiente')|length }}</strong>
             </div>
         </article>
 
@@ -52,7 +52,7 @@
             </span>
             <div>
                 <span class="stat-label">Canceladas</span>
-                <strong id="stat-canceladas">—</strong>
+                <strong id="stat-canceladas">{{ reservations|filter(r => r.estado == 'cancelada')|length }}</strong>
             </div>
         </article>
     </section>
@@ -93,7 +93,7 @@
     <section class="panel table-panel">
         <div class="panel-heading">
             <div>
-                <h2>Reservas <span id="reservas-count"></span></h2>
+                <h2>Reservas <span id="reservas-count">({{ reservations|length }})</span></h2>
                 <p>Listado actualizado de alojamientos reservados</p>
             </div>
             <button class="btn btn-secondary" id="btn-actualizar">
@@ -119,22 +119,33 @@
                     </tr>
                 </thead>
                 <tbody id="reservas-tbody">
-                    <tr>
-                        <td colspan="8" class="empty-state">
-                            Cargando reservas...
-                        </td>
-                    </tr>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <td>{{ reservation.id }}</td>
+                            <td class="guest-name">{{ reservation.nombre_huesped }}</td>
+                            <td>{{ reservation.nombre_alojamiento }}</td>
+                            <td>{{ reservation.fecha_entrada|date('d/m/Y') }}</td>
+                            <td>{{ reservation.fecha_salida|date('d/m/Y') }}</td>
+                            <td>{{ reservation.importe|number_format(2, ',', '.') }} €</td>
+                            <td><span class="status status-{{ reservation.estado }}">{{ reservation.estado }}</span></td>
+                            <td><a class="table-action" href="/reservas/{{ reservation.id }}">Ver detalle</a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="empty-state">No se encontraron reservas.</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
 
         <div class="table-footer">
-            <span id="reservas-footer">Consultando datos...</span>
+            <span id="reservas-footer">Mostrando {{ reservations|length }} reservas</span>
         </div>
     </section>
 
     {% include "reservations/form.html.twig" %}
-    
+
 {% endblock %}
 
 {% block scripts %}

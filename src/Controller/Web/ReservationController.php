@@ -26,6 +26,7 @@ final class ReservationController
                 'reservations/index.html.twig',
                 [
                     'title' => 'Gestión de reservas',
+                    'reservations' => $this->reservationService->findAll(),
                 ]
             )
         );

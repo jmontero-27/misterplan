@@ -298,6 +298,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    loadReservations();
     lucide.createIcons();
 });
