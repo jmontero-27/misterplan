@@ -36,6 +36,20 @@ cp .env.example .env
 ```
 
 3. Configurar las variables de conexión.
+
+Configura `.env` con las credenciales de tu entorno. La aplicación carga
+este archivo mediante `vlucas/phpdotenv`, sin sobrescribir las variables
+ya definidas en el entorno.
+
+Con Docker, se pueden utilizar los valores de `.env.example`; Docker
+Compose proporciona las variables al contenedor.
+
+En un hosting sin Docker, utiliza el servidor MySQL, nombre de base de
+datos, usuario y contraseña correspondientes al proveedor. El valor
+`DB_HOST=db` solo es válido dentro de Docker.
+
+El archivo `.env` contiene credenciales y está excluido del repositorio.
+
 4. Arrancar los contenedores.
 
 ```
