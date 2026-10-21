@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Exception\NotFoundException;
 use App\Http\ControllerResolver;
 
 final class Router
@@ -95,14 +96,9 @@ final class Router
             );
         }
 
-        return new JsonResponse(
-            [
-                'error' => 'Not Found'
-            ],
-            404
-        );
+        throw new NotFoundException('Not Found');
     }
-    
+
     private function resolveArguments(
         callable $handler,
         Request $request,

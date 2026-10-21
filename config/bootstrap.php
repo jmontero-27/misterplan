@@ -7,6 +7,7 @@ use Twig\Loader\FilesystemLoader;
 
 use App\Controller\Api\ApiReservationController;
 use App\Controller\Web\ReservationController;
+use App\Http\Application;
 use App\Http\ControllerResolver;
 use App\Http\Router;
 use App\Repository\ReservationEventRepository;
@@ -72,4 +73,4 @@ $router = new Router($resolver);
 $registerRoutes = require __DIR__ . '/routes.php';
 $registerRoutes($router);
 
-return $router;
+return new Application($router, $twig);

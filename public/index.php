@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Application;
 use App\Http\JsonResponse;
 use App\Http\Request;
 
@@ -15,9 +14,7 @@ try {
     $dotenv = Dotenv\Dotenv::createUnsafeImmutable(dirname(__DIR__));
     $dotenv->safeLoad();
 
-    $router = require dirname(__DIR__) . '/config/bootstrap.php';
-
-    $application = new Application($router);
+    $application = require dirname(__DIR__) . '/config/bootstrap.php';
 
     $request = Request::fromGlobals();
 
