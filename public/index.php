@@ -12,6 +12,9 @@ ini_set('display_errors', '0');
 ini_set('log_errors', '1');
 
 try {
+    $dotenv = Dotenv\Dotenv::createUnsafeImmutable(dirname(__DIR__));
+    $dotenv->safeLoad();
+
     $router = require dirname(__DIR__) . '/config/bootstrap.php';
 
     $application = new Application($router);
